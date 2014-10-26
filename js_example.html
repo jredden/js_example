@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Examples</title>
+</head>
+<script src="../js/jquery-1.8.1.min.js" type="text/javascript"></script>
+<script type="text/javascript" >
+
+var cloneFunc = (function () {
+	
+	return {getClone: function (obj){
+		console.log("Obj:"+obj+"::"+typeof obj);
+		if(obj == null || typeof obj != 'object'){
+			return obj;
+		}
+		var newObj = {}
+		for(var key in obj){
+			newObj[key] = this.getClone(obj[key]);
+		}
+		console.log("newObj:"+newObj);
+		return newObj;			}
+	}
+
+})();
+
+var stuff0 = (function (){
+	var one = 1;
+	var two = 2;
+	
+	var cloneOne = cloneFunc.getClone(one);
+	
+	return {
+		getOne: function(){ 
+			return one;
+		},
+		getTwo: function(){ 
+			return two;
+		},
+		getClone: function(){
+			return jQuery.extend(true, {}, this);
+		},
+		getCloneOne: function(){
+			return cloneOne;
+		}		
+	}
+})();
+
+var containsFunct = ( function(){
+	return{
+		getContains: function (val, ray){
+			
+			Array.prototype.contains = function(val, ray){
+				console.log("RAY:"+ray);
+				for(var idex = 0; idex < ray.length; idex++){
+					if(ray[idex] === val){
+						return true;
+					}
+				}
+			return false;
+			}
+			return ray.contains(val,ray);
+		}
+	}
+});
+
+$( document ).ready( function() {
+	console.log(stuff0.getOne());
+	console.log(stuff0.getTwo());
+	console.log(stuff0.getCloneOne());
+	
+	var stuffClone = jQuery.extend(true, {}, stuff0);
+	console.log(stuffClone);
+	console.log(stuff0.getClone());
+	console.log(cloneFunc.getClone(stuff0));
+	var stuffCloneLocal = cloneFunc.getClone(stuff0);
+	console.log(stuffClone.getOne());
+	console.log(stuffCloneLocal.getTwo());
+	var stuffCloneLocal1 = cloneFunc.getClone(stuff0);
+	console.log(stuffCloneLocal1.getOne());
+	
+	var containsFunction = new containsFunct();
+	console.log(containsFunction.getContains(3, [1,2,3]));
+} );
+
+</script>
+
+<body>
+	<header>
+		<span>Examples</span>
+	</header>
+	<main>
+	
+	
+	
+	</main>
+	<footer>Etudes from Examples from CISDAL book</footer>
+</body>
+</html>	
