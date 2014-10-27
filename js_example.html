@@ -64,6 +64,16 @@ var containsFunct = ( function(){
 	}
 });
 
+var extendLocal = ( function(){
+	return{
+		getExtend: function(object){
+			function Extend(){};
+			Extend.prototype = object;
+			return new Extend();
+		}
+	}
+})();
+
 $( document ).ready( function() {
 	console.log(stuff0.getOne());
 	console.log(stuff0.getTwo());
@@ -81,6 +91,9 @@ $( document ).ready( function() {
 	
 	var containsFunction = new containsFunct();
 	console.log(containsFunction.getContains(3, [1,2,3]));
+	
+	var containsFunction2 =  extendLocal.getExtend(containsFunction);
+	console.log(containsFunction2.getContains(4, [1,2,3]));
 } );
 
 </script>
